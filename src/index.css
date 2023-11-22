@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .container {
+    @apply max-w-full h-screen bg-neutral-100;
+  }
+
+  .slot-btn {
+    @apply w-52 h-16 font-bold py-2 px-4 rounded;
+  }
+  .btn-blue {
+    @apply bg-blue-500 text-white;
+  }
+  .btn-not-allowed {
+    @apply opacity-50 cursor-not-allowed;
+  }
+  .btn-blue:hover {
+    @apply bg-blue-700;
+  }
+
+  .selected-day {
+    @apply bg-green-500;
+  }
+
+  .machine-btn {
+    @apply w-16 h-14 text-white font-bold rounded p-2;
+  }
+
+  .cancel-reservation-btn {
+    @apply bg-red-500 text-white font-semibold p-1 rounded;
+  }
+  .cancel-reservation-btn:hover {
+    @apply bg-red-700;
+  }
+
+  .confirm-btn {
+    @apply w-20 h-12 font-bold rounded;
+  }
+  .cancel-reservation-btn:hover {
+    @apply bg-red-700;
+  }
+
+  .close-window-btn {
+    @apply border border-blue-300 text-gray-900;
+  }
+  .close-window-btn:hover {
+    @apply bg-blue-500 text-white;
+  }
+}
