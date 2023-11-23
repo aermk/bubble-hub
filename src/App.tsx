@@ -40,6 +40,7 @@ const App = () => {
   const handleAddReservation = (newReservation: Reservation) => {
     setList([...listOfReservations, newReservation]);
   };
+  console.log(machinesStructure, "machinesStructure");
 
   return (
     <div className='container'>
@@ -49,7 +50,6 @@ const App = () => {
           getSelectedDay={getSelectedDay}
           listOfReservations={listOfReservations}
           handleAddReservation={handleAddReservation}
-          machinesStructure={machinesStructure}
           today={today}
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}

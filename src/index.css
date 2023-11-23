@@ -4,7 +4,7 @@
 
 @layer components {
   .container {
-    @apply max-w-full h-screen bg-neutral-100;
+    @apply max-w-full min-h-screen bg-neutral-100;
   }
 
   .slot-btn {

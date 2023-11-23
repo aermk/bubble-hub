@@ -4,7 +4,6 @@ import { Machine, Reservation, TimeSlot } from "../../mock";
 
 type PropsType = {
   machines: Machine[];
-  machinesStructure: TimeSlot[];
   slot: TimeSlot;
   handleOptionChange: (machineId: number, name: string) => void;
   listOfReservations: any;

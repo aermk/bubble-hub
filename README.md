@@ -1,8 +1,37 @@
-# React + Vite
+# BubbleHub: laundry booking UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## About app
 
-Currently, two official plugins are available:
+This is an application for booking washing machines. The application assumes that the user logs in using personal credentials.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### How it works
+
+The user can:
+
+- select a day,
+- select a time slot on the selected day,
+- select a washing machine,
+- сonfirm a reservation,
+- delete a reservation.
+
+If the washing machine is not available, it means it has been selected by other users.
+If a time slot is unavailable, it means all washing machines in that time slot have been booked by other users.
+
+- The day the user has a reservation is marked with a green mark.
+- The user-booked time slot and washing machine are highlighted in green.
+
+### Booking Rules
+
+- The user are limited to a maximum of 8 reservations.
+- The user can select only one washing machine in the modal window.
+- The user cannot confirm the reservation without selecting a washing machine.
+
+## Build With
+
+- React + Vite
+- TypeScript
+- Tailwindcss
+
+## Demo link
+
+https://aermk.github.io/bubble-hub/

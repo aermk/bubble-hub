@@ -9,7 +9,6 @@ type ModalWindowPropsType = {
   onClose: () => void;
   formatedSelectedDate?: string;
   handleAddReservation: (reservation: Reservation) => void;
-  machinesStructure: TimeSlot[];
   listOfReservations: Reservation[];
 };
 
@@ -51,7 +50,6 @@ export const ModalWindow = (props: ModalWindowPropsType) => {
         <div className='my-4 p-4'>
           <MachineSelector
             listOfReservations={props.listOfReservations}
-            machinesStructure={props.machinesStructure}
             machines={props.slot.machines}
             slot={props.slot}
             handleOptionChange={handleOptionChange}
@@ -80,6 +78,7 @@ export const ModalWindow = (props: ModalWindowPropsType) => {
             Cancel
           </button>
           {/* TODO tooltip when 8 elements  */}
+          {/* TODO blocked slots?  */}
         </div>
       </div>
     </div>

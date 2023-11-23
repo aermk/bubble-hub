@@ -14,14 +14,12 @@ import {
   parseISO,
 } from "date-fns";
 import { classNames } from "../../utils";
-import { Slots } from "./Slots";
 import { colStartClasses } from "../../utils";
-import { Reservation, TimeSlot } from "../../mock";
+import { Reservation } from "../../mock";
 
 type CalendarPropsType = {
   handleAddReservation: (reservation: Reservation) => void;
   listOfReservations: Reservation[];
-  machinesStructure: TimeSlot[];
   getSelectedDay: (day: string) => void;
   today: Date;
   setSelectedDay: (selectedDay) => void;

@@ -33,7 +33,6 @@ export const Slots = (props: SlotsPropsType) => {
                 handleAddReservation={props.handleAddReservation}
                 slot={slot}
                 formatedSelectedDate={props.formatedSelectedDate}
-                machinesStructure={props.machinesStructure}
               ></Slot>
             </div>
           ))}

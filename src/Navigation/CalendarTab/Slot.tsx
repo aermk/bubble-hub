@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { format } from "date-fns";
 import ModalWindow from "./ModalWindow";
 import { classNames } from "../../utils";
 import { Reservation, TimeSlot } from "../../mock";
@@ -10,7 +9,6 @@ type SlotPropsType = {
   handleAddReservation: (reservation: Reservation) => void;
   selectedDay: Date;
   listOfReservations: Reservation[];
-  machinesStructure: TimeSlot[];
 };
 
 export const Slot = (props: SlotPropsType) => {
@@ -54,7 +52,6 @@ export const Slot = (props: SlotPropsType) => {
           handleAddReservation={props.handleAddReservation}
           formatedSelectedDate={props.formatedSelectedDate}
           onClose={handleCloseModal}
-          machinesStructure={props.machinesStructure}
           listOfReservations={props.listOfReservations}
         />
       )}

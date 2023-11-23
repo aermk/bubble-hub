@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Reservation, selectedWashingDays } from "../../mock";
-import { addHours, format } from "date-fns";
+import React from "react";
+import { Reservation } from "../../mock";
+import { format } from "date-fns";
 
 type MyReservationsPropsType = {
   listOfReservations: Reservation[];
