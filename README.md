@@ -26,11 +26,11 @@ If a time slot is unavailable, it means all washing machines in that time slot h
 - The user can select only one washing machine in the modal window.
 - The user cannot confirm the reservation without selecting a washing machine.
 
-## Build With
+## Built With
 
 - React + Vite
 - TypeScript
-- Tailwindcss
+- Tailwind CSS
 
 ## Demo link
 
