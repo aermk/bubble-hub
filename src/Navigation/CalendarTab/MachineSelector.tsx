@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import { classNames } from "../../utils";
 import { Machine, Reservation, TimeSlot } from "../../mock";
 
@@ -6,10 +6,10 @@ type PropsType = {
   machines: Machine[];
   slot: TimeSlot;
   handleOptionChange: (machineId: number, name: string) => void;
-  listOfReservations: any;
+  listOfReservations: Reservation[];
 };
 
-export const MachineSelector = (props: PropsType) => {
+export const MachineSelector: FC<PropsType> = (props) => {
   return (
     <div className='grid grid-cols-4 gap-6 text-sm'>
       {props.machines.map((machine, index) => {
@@ -37,7 +37,7 @@ export const MachineSelector = (props: PropsType) => {
               type='radio'
               disabled={machine.wasSelectedByOther || isMachineSelected}
               name={props.slot.timeSlotId.toString()}
-              onChange={(e) => {
+              onChange={() => {
                 props.handleOptionChange(machine.machineId, machine.name);
               }}
             />

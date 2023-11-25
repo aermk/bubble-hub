@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, FC } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import {
   add,
@@ -20,31 +20,31 @@ import { Reservation } from "../../mock";
 type CalendarPropsType = {
   handleAddReservation: (reservation: Reservation) => void;
   listOfReservations: Reservation[];
-  getSelectedDay: (day: string) => void;
+  getSelectedDay: (day: Date) => void;
   today: Date;
-  setSelectedDay: (selectedDay) => void;
+  setSelectedDay: (selectedDay: Date) => void;
   selectedDay: Date;
   formatedSelectedDate: string;
 };
 
-export const Calendar = (props: CalendarPropsType) => {
-  let [currentMonth, setCurrentMonth] = useState(
+export const Calendar: FC<CalendarPropsType> = (props) => {
+  const [currentMonth, setCurrentMonth] = useState(
     format(props.today, "MMM-yyyy")
   );
-  let firstDayCurrentMonth = parse(currentMonth, "MMM-yyyy", new Date());
+  const firstDayCurrentMonth = parse(currentMonth, "MMM-yyyy", new Date());
 
-  let days = eachDayOfInterval({
+  const days = eachDayOfInterval({
     start: firstDayCurrentMonth,
     end: endOfMonth(firstDayCurrentMonth),
   });
 
   const previousMonth = () => {
-    let firstDayNextMonth = add(firstDayCurrentMonth, { months: -1 });
+    const firstDayNextMonth = add(firstDayCurrentMonth, { months: -1 });
     setCurrentMonth(format(firstDayNextMonth, "MMM-yyyy"));
   };
 
   const nextMonth = () => {
-    let firstDayNextMonth = add(firstDayCurrentMonth, { months: 1 });
+    const firstDayNextMonth = add(firstDayCurrentMonth, { months: 1 });
     setCurrentMonth(format(firstDayNextMonth, "MMM-yyyy"));
   };
 

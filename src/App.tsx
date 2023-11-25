@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import Header from "./Header";
 import MyReservations from "./Navigation/MyReservationsTab/MyReservation";
@@ -13,8 +13,8 @@ import { format, startOfToday } from "date-fns";
 import Slots from "./Navigation/CalendarTab/Slots";
 
 const App = () => {
-  let today = startOfToday();
-  let [selectedDay, setSelectedDay] = useState(today);
+  const today = startOfToday();
+  const [selectedDay, setSelectedDay] = useState(today);
   const formatedSelectedDate = format(selectedDay, "MMM dd, EEEE");
   const [listOfReservations, setList] =
     useState<Reservation[]>(selectedWashingDays);
@@ -22,7 +22,7 @@ const App = () => {
     timeSlotsWithMachines
   );
 
-  const getSelectedDay = (today) => {
+  const getSelectedDay = (today: Date) => {
     const machineStructureWithDates = machinesStructure.map((slot) => ({
       ...slot,
       date: format(today, "yyyy-MM-dd"),

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, FC } from "react";
 import MachineSelector from "./MachineSelector";
 import { v1 } from "uuid";
 import { classNames } from "../../utils";
@@ -12,11 +12,11 @@ type ModalWindowPropsType = {
   listOfReservations: Reservation[];
 };
 
-export const ModalWindow = (props: ModalWindowPropsType) => {
+export const ModalWindow: FC<ModalWindowPropsType> = (props) => {
   const [choosenMachineId, setChoosenMachineId] = useState<number>(0);
   const [choosenMachineName, setChoosenMachineName] = useState<string>("");
 
-  let isButtonDisabled =
+  const isButtonDisabled =
     props.listOfReservations.length >= 8 || !choosenMachineName;
 
   const handleOptionChange = (machineId: number, machineName: string) => {

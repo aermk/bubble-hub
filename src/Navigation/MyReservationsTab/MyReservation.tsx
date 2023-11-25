@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import { Reservation } from "../../mock";
 import { format } from "date-fns";
 
@@ -7,7 +7,7 @@ type MyReservationsPropsType = {
   handleRemoveReservation: (id: string) => void;
 };
 
-export const MyReservations = (props: MyReservationsPropsType) => {
+export const MyReservations: FC<MyReservationsPropsType> = (props) => {
   return (
     <div className='flex-1 p-4'>
       <h1 className='mb-4 font-semibold text-xl'>

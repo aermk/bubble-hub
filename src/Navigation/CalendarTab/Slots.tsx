@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import { Slot } from "./Slot";
 import { Reservation, TimeSlot } from "../../mock";
 import { format } from "date-fns";
@@ -11,7 +11,7 @@ type SlotsPropsType = {
   listOfReservations: Reservation[];
 };
 
-export const Slots = (props: SlotsPropsType) => {
+export const Slots: FC<SlotsPropsType> = (props) => {
   return (
     <div className='flex-1 p-4'>
       <h1 className='mb-4 font-semibold text-xl'>

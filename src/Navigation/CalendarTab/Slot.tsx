@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, FC } from "react";
 import ModalWindow from "./ModalWindow";
 import { classNames } from "../../utils";
 import { Reservation, TimeSlot } from "../../mock";
@@ -11,7 +11,7 @@ type SlotPropsType = {
   listOfReservations: Reservation[];
 };
 
-export const Slot = (props: SlotPropsType) => {
+export const Slot: FC<SlotPropsType> = (props) => {
   const [showModal, setShowModal] = useState(false);
 
   const onTimeSlotClick = () => {
