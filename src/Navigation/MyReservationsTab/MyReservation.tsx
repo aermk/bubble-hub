@@ -21,7 +21,7 @@ export const MyReservations: FC<MyReservationsPropsType> = (props) => {
                 key={index}
                 className='flex items-center justify-between mb-1 bg-neutral-50 p-1 rounded-md'
               >
-                {format(new Date(reservation.date), "MMM dd, EEEE")},{" "}
+                {format(new Date(reservation.date), "MMM d, EEEE")},{" "}
                 {reservation.startDatetime}
                 {" - "}
                 {reservation.endDatetime},{"  "}
