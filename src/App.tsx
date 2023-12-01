@@ -15,7 +15,7 @@ import Slots from "./Navigation/CalendarTab/Slots";
 const App = () => {
   const today = startOfToday();
   const [selectedDay, setSelectedDay] = useState(today);
-  const formatedSelectedDate = format(selectedDay, "MMM dd, EEEE");
+  const formatedSelectedDate = format(selectedDay, "MMM d, EEEE");
   const [listOfReservations, setList] =
     useState<Reservation[]>(selectedWashingDays);
   const [machinesStructure, setMachinesStructure] = useState<TimeSlot[]>(

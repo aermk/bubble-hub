@@ -12,6 +12,7 @@ import {
   isToday,
   parse,
   parseISO,
+  isBefore,
 } from "date-fns";
 import { classNames } from "../../utils";
 import { colStartClasses } from "../../utils";
@@ -43,6 +44,8 @@ export const Calendar: FC<CalendarPropsType> = (props) => {
     setCurrentMonth(format(firstDayNextMonth, "MMM-yyyy"));
   };
 
+  const isFirstMonth = currentMonth === format(props.today, "MMM-yyyy");
+
   const nextMonth = () => {
     const firstDayNextMonth = add(firstDayCurrentMonth, { months: 1 });
     setCurrentMonth(format(firstDayNextMonth, "MMM-yyyy"));
@@ -57,8 +60,15 @@ export const Calendar: FC<CalendarPropsType> = (props) => {
         </h2>
         <button
           type='button'
-          onClick={previousMonth}
-          className='-my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500'
+          onClick={() => {
+            if (!isFirstMonth) {
+              previousMonth();
+            }
+          }}
+          className={classNames(
+            isFirstMonth && "btn-not-allowed",
+            "-my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
+          )}
         >
           <span className='sr-only'>Previous month</span>
           <ChevronLeftIcon className='w-5 h-5' aria-hidden='true' />
@@ -96,6 +106,7 @@ export const Calendar: FC<CalendarPropsType> = (props) => {
                 props.setSelectedDay(day);
                 props.getSelectedDay(day);
               }}
+              disabled={isBefore(day, props.today)}
               className={classNames(
                 isEqual(day, props.selectedDay) && "text-white",
                 !isEqual(day, props.selectedDay) &&
@@ -118,7 +129,7 @@ export const Calendar: FC<CalendarPropsType> = (props) => {
                 !isEqual(day, props.selectedDay) && "hover:bg-gray-200",
                 (isEqual(day, props.selectedDay) || isToday(day)) &&
                   "font-semibold",
-
+                isBefore(day, props.today) && "btn-not-allowed",
                 "mx-auto flex h-8 w-8 items-center justify-center rounded-full"
               )}
             >
