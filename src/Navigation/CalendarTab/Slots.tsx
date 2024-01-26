@@ -20,7 +20,7 @@ export const Slots: FC<SlotsPropsType> = (props) => {
       <div className='flex flex-col'>
         <h2 className='font-semibold text-gray-900 mb-4'>
           Schedule for{" "}
-          <time dateTime={format(props.selectedDay, "yyyy-MM-dd")}>
+          <time dateTime={format(props.selectedDay, "yyyy-MM-d")}>
             {props.formatedSelectedDate}
           </time>
         </h2>
