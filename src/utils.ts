@@ -11,3 +11,9 @@ export const colStartClasses = [
   "col-start-5",
   "col-start-6",
 ];
+
+export const API_CALL_STATUS_OK = 200;
+export const API_CALL_STATUS_CREATED = 201;
+export const API_CALL_STATUS_NO_CONTENT = 204;
+export const API_CALL_STATUS_ACCESS_DENIED = 403;
+export const API_CALL_STATUS_NOT_FOUND = 404;

@@ -2,18 +2,17 @@ import { useState, FC } from "react";
 import ModalWindow from "./ModalWindow";
 import { classNames } from "../../utils";
 import { Reservation, TimeSlot } from "../../mock";
+import { observer } from "mobx-react";
 
 type SlotPropsType = {
   slot: TimeSlot;
   formatedSelectedDate?: string;
-  handleAddReservation: (reservation: Reservation) => void;
   selectedDay: Date;
   listOfReservations: Reservation[];
 };
 
-export const Slot: FC<SlotPropsType> = (props) => {
+export const Slot: FC<SlotPropsType> = observer((props) => {
   const [showModal, setShowModal] = useState(false);
-
   const onTimeSlotClick = () => {
     setShowModal(true);
   };
@@ -49,7 +48,6 @@ export const Slot: FC<SlotPropsType> = (props) => {
       {props.slot.available && showModal && (
         <ModalWindow
           slot={props.slot}
-          handleAddReservation={props.handleAddReservation}
           formatedSelectedDate={props.formatedSelectedDate}
           onClose={handleCloseModal}
           listOfReservations={props.listOfReservations}
@@ -57,6 +55,6 @@ export const Slot: FC<SlotPropsType> = (props) => {
       )}
     </>
   );
-};
+});
 
 export default Slot;

@@ -3,12 +3,13 @@ import MachineSelector from "./MachineSelector";
 import { v1 } from "uuid";
 import { classNames } from "../../utils";
 import { Reservation, TimeSlot } from "../../mock";
+import { useMST } from "../../store/useMST";
+import { IRootStore } from "../../store/rootStore";
 
 type ModalWindowPropsType = {
   slot: TimeSlot;
   onClose: () => void;
   formatedSelectedDate?: string;
-  handleAddReservation: (reservation: Reservation) => void;
   listOfReservations: Reservation[];
 };
 
@@ -16,8 +17,12 @@ export const ModalWindow: FC<ModalWindowPropsType> = (props) => {
   const [choosenMachineId, setChoosenMachineId] = useState<number>(0);
   const [choosenMachineName, setChoosenMachineName] = useState<string>("");
 
-  const isButtonDisabled =
-    props.listOfReservations.length >= 8 || !choosenMachineName;
+  const store = useMST<IRootStore>();
+  const { reservationsStore } = store;
+  const { addReservation, fetchReservations, reservationsCount } =
+    reservationsStore;
+
+  const isButtonDisabled = reservationsCount >= 8 || !choosenMachineName;
 
   const handleOptionChange = (machineId: number, machineName: string) => {
     setChoosenMachineId(machineId);
@@ -25,7 +30,7 @@ export const ModalWindow: FC<ModalWindowPropsType> = (props) => {
   };
 
   const handleConfirm = () => {
-    props.handleAddReservation({
+    addReservation({
       id: v1(),
       timeSlotId: props.slot.timeSlotId,
       startDatetime: props.slot.startTime,
@@ -33,11 +38,14 @@ export const ModalWindow: FC<ModalWindowPropsType> = (props) => {
       machineId: choosenMachineId,
       name: choosenMachineName,
       date: props.slot.date,
-    });
-    props.onClose();
-  };
-
-  const handleCancel = () => {
+    })
+      .then(() => {
+        fetchReservations();
+        console.log("there was a fetch");
+      })
+      .catch((e) => {
+        console.error(e);
+      });
     props.onClose();
   };
 
@@ -73,7 +81,7 @@ export const ModalWindow: FC<ModalWindowPropsType> = (props) => {
           </button>
           <button
             className='close-window-btn confirm-btn'
-            onClick={handleCancel}
+            onClick={props.onClose}
           >
             Cancel
           </button>
