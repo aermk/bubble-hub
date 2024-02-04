@@ -1,23 +1,22 @@
 import { useState } from "react";
-import "./App.css";
 import Header from "./Header";
 import MyReservations from "./Navigation/MyReservationsTab/MyReservation";
 import Calendar from "./Navigation/CalendarTab/Calendar";
-import {
-  Reservation,
-  TimeSlot,
-  selectedWashingDays,
-  timeSlotsWithMachines,
-} from "./mock";
+import { TimeSlot, timeSlotsWithMachines } from "./mock";
 import { format, startOfToday } from "date-fns";
 import Slots from "./Navigation/CalendarTab/Slots";
+import { IRootStore } from "./store/rootStore";
+import { useMST } from "./store/useMST";
+import { observer } from "mobx-react";
 
-const App = () => {
+const App = observer(() => {
+  const store = useMST<IRootStore>();
+  const { reservationsStore } = store;
+  const { reservations } = reservationsStore;
+
   const today = startOfToday();
   const [selectedDay, setSelectedDay] = useState(today);
-  const formatedSelectedDate = format(selectedDay, "MMM d, EEEE");
-  const [listOfReservations, setList] =
-    useState<Reservation[]>(selectedWashingDays);
+  const formatedSelectedDate = format(selectedDay, "MMM dd, EEEE");
   const [machinesStructure, setMachinesStructure] = useState<TimeSlot[]>(
     timeSlotsWithMachines
   );
@@ -30,16 +29,6 @@ const App = () => {
     setMachinesStructure(machineStructureWithDates);
   };
 
-  const handleRemoveReservation = (id: string) => {
-    const updatedList = listOfReservations.filter(
-      (reservation: Reservation) => reservation.id !== id // TODO fix type
-    );
-    setList(updatedList);
-  };
-
-  const handleAddReservation = (newReservation: Reservation) => {
-    setList([...listOfReservations, newReservation]);
-  };
   console.log(machinesStructure, "machinesStructure");
 
   return (
@@ -48,27 +37,22 @@ const App = () => {
       <section className='flex flex-row justify-items-stretch bg-white p-6 rounded-lg shadow m-8 2xl:flex-col'>
         <Calendar
           getSelectedDay={getSelectedDay}
-          listOfReservations={listOfReservations}
-          handleAddReservation={handleAddReservation}
+          listOfReservations={reservations}
           today={today}
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
           formatedSelectedDate={formatedSelectedDate}
         />
         <Slots
-          listOfReservations={listOfReservations}
-          handleAddReservation={handleAddReservation}
+          listOfReservations={reservations}
           formatedSelectedDate={formatedSelectedDate}
           selectedDay={selectedDay}
           machinesStructure={machinesStructure}
         />
-        <MyReservations
-          listOfReservations={listOfReservations}
-          handleRemoveReservation={handleRemoveReservation}
-        />
+        <MyReservations listOfReservations={reservations} />
       </section>
     </div>
   );
-};
+});
 
 export default App;

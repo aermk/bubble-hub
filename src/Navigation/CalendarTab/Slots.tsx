@@ -6,7 +6,6 @@ import { format } from "date-fns";
 type SlotsPropsType = {
   machinesStructure: TimeSlot[];
   formatedSelectedDate?: string;
-  handleAddReservation: (reservation: Reservation) => void;
   selectedDay: Date;
   listOfReservations: Reservation[];
 };
@@ -30,7 +29,6 @@ export const Slots: FC<SlotsPropsType> = (props) => {
               <Slot
                 listOfReservations={props.listOfReservations}
                 selectedDay={props.selectedDay}
-                handleAddReservation={props.handleAddReservation}
                 slot={slot}
                 formatedSelectedDate={props.formatedSelectedDate}
               ></Slot>

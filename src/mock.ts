@@ -16,6 +16,7 @@ export type TimeSlot = {
 };
 
 export type Reservation = {
+  //add userId
   id: string;
   timeSlotId: number;
   startDatetime: string;

@@ -17,9 +17,9 @@ import {
 import { classNames } from "../../utils";
 import { colStartClasses } from "../../utils";
 import { Reservation } from "../../mock";
+import { observer } from "mobx-react";
 
 type CalendarPropsType = {
-  handleAddReservation: (reservation: Reservation) => void;
   listOfReservations: Reservation[];
   getSelectedDay: (day: Date) => void;
   today: Date;
@@ -28,7 +28,7 @@ type CalendarPropsType = {
   formatedSelectedDate: string;
 };
 
-export const Calendar: FC<CalendarPropsType> = (props) => {
+export const Calendar: FC<CalendarPropsType> = observer((props) => {
   const [currentMonth, setCurrentMonth] = useState(
     format(props.today, "MMM-yyyy")
   );
@@ -147,6 +147,6 @@ export const Calendar: FC<CalendarPropsType> = (props) => {
       </div>
     </div>
   );
-};
+});
 
 export default Calendar;

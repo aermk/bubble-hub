@@ -1,6 +1,8 @@
 import { FC } from "react";
 import { classNames } from "../../utils";
 import { Machine, Reservation, TimeSlot } from "../../mock";
+import { useMST } from "../../store/useMST";
+import { IRootStore } from "../../store/rootStore";
 
 type PropsType = {
   machines: Machine[];
@@ -10,10 +12,14 @@ type PropsType = {
 };
 
 export const MachineSelector: FC<PropsType> = (props) => {
+  const store = useMST<IRootStore>();
+  const { reservationsStore } = store;
+  const { reservations } = reservationsStore;
+
   return (
     <div className='grid grid-cols-4 gap-6 text-sm'>
       {props.machines.map((machine, index) => {
-        const isMachineSelected = props.listOfReservations.some(
+        const isMachineSelected = reservations.some(
           (reservation: Reservation) =>
             reservation.date === props.slot.date &&
             reservation.timeSlotId === props.slot.timeSlotId &&
