@@ -1,8 +1,6 @@
 import { FC } from "react";
-import { classNames } from "../../utils";
-import { Machine, Reservation, TimeSlot } from "../../mock";
-import { useMST } from "../../store/useMST";
-import { IRootStore } from "../../store/rootStore";
+import { classNames } from "../utils";
+import { Machine, Reservation, TimeSlot } from "../mock";
 
 type PropsType = {
   machines: Machine[];
@@ -12,14 +10,10 @@ type PropsType = {
 };
 
 export const MachineSelector: FC<PropsType> = (props) => {
-  const store = useMST<IRootStore>();
-  const { reservationsStore } = store;
-  const { reservations } = reservationsStore;
-
   return (
-    <div className='grid grid-cols-4 gap-6 text-sm'>
+    <div className="grid grid-cols-4 gap-6 text-sm">
       {props.machines.map((machine, index) => {
-        const isMachineSelected = reservations.some(
+        const isMachineSelected = props.listOfReservations.some(
           (reservation: Reservation) =>
             reservation.date === props.slot.date &&
             reservation.timeSlotId === props.slot.timeSlotId &&
@@ -32,22 +26,22 @@ export const MachineSelector: FC<PropsType> = (props) => {
             className={classNames(
               isMachineSelected
                 ? "machine-btn bg-green-500 btn-not-allowed hover:bg-green-700"
-                : machine.wasSelectedByOther
+                : machine.selectedBy
                 ? "machine-btn btn-blue btn-not-allowed"
                 : "machine-btn btn-blue",
               "flex items-center justify-center"
             )}
           >
             <input
-              className='w-5 h-5'
-              type='radio'
-              disabled={machine.wasSelectedByOther || isMachineSelected}
+              className="w-5 h-5"
+              type="radio"
+              disabled={!!machine.selectedBy || isMachineSelected}
               name={props.slot.timeSlotId.toString()}
               onChange={() => {
                 props.handleOptionChange(machine.machineId, machine.name);
               }}
             />
-            <label className='ml-2'>{machine.name}</label>
+            <label className="ml-2">{machine.name}</label>
           </div>
         );
       })}

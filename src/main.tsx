@@ -4,7 +4,6 @@ import App from "./App.tsx";
 import "./index.css";
 import { MSTProvider } from "./store/useMST.ts";
 import { createRootStore } from "./store/rootStore.ts";
-
 import bubbleHub from "./api/mocks/bubble-hub.ts";
 import mockApi from "./api/mockApiClient.ts";
 

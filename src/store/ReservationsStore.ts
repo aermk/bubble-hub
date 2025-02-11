@@ -7,7 +7,7 @@ export const ReservationsStore = types
     reservations: types.optional(types.array(Reservation), []),
   })
   .views((self) => ({
-    get reservationsCount() {
+    get reservationsCount(): number {
       return self.reservations.length;
     },
   }))
@@ -17,13 +17,14 @@ export const ReservationsStore = types
         const resp = yield mockApi.get("/reservations");
         self.reservations = resp.data;
       } catch (e) {
-        console.error(e, "error");
+        console.error(e, "error fetchReservations");
         throw e;
       }
     }),
     addReservation: flow(function* addReservation(newReservation) {
       try {
         const data = {
+          userId: newReservation.userId,
           id: newReservation.id,
           machineId: newReservation.machineId,
           timeSlotId: newReservation.timeSlotId,
@@ -33,7 +34,8 @@ export const ReservationsStore = types
           endDatetime: newReservation.endDatetime,
         };
 
-        yield mockApi.post("/", data);
+        const resp = yield mockApi.post("/", data);
+        console.log(resp, "addReservation resp");
       } catch (e) {
         console.error(e, "error");
         throw e;
@@ -41,7 +43,8 @@ export const ReservationsStore = types
     }),
     removeReservation: flow(function* removeReservation(id) {
       try {
-        yield mockApi.delete(`/reservations/${id}`);
+        const resp = yield mockApi.delete(`/reservations/${id}`);
+        console.log(resp, "removeReservation resp");
       } catch (e) {
         console.error(e, "error");
         throw e;

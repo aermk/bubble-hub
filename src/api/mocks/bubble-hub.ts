@@ -5,7 +5,11 @@ import {
   API_CALL_STATUS_NO_CONTENT,
   API_CALL_STATUS_OK,
 } from "../../utils";
-import { selectedWashingDays } from "../../mock";
+import {
+  curentUserId,
+  selectedWashingDays,
+  timeSlotsWithMachines,
+} from "../../mock";
 import { v1 } from "uuid";
 
 const uuidRegexp =
@@ -23,6 +27,7 @@ export const bubbleHub = (client: AxiosInstance): MockAdapter => {
       const newReservationId = v1();
 
       selectedWashingDays.push({
+        userId: curentUserId,
         id: newReservationId,
         machineId: data.machineId,
         timeSlotId: data.timeSlotId,
@@ -49,7 +54,31 @@ export const bubbleHub = (client: AxiosInstance): MockAdapter => {
         return [API_CALL_STATUS_NO_CONTENT];
       }
       return [API_CALL_STATUS_NOT_FOUND, { error: "Item not found" }];
-    });
+    })
+    .onGet(new RegExp(`/timeslots`))
+    .reply(() => [API_CALL_STATUS_OK, timeSlotsWithMachines]);
+  // TODO: need to fix
+  // .onPut(/timeslots\/\d+/)
+  // .reply((config) => {
+  //   const match = config.url?.match(new RegExp(`/timeslots/(\\d+)`));
+  //   const id = (match && match[1]) || "";
+  //   const data = JSON.parse(config.data);
+  //   console.log("data", data);
+  //   const updatedItem = timeSlotsWithMachines.find(
+  //     (item: TimeSlot) => item.timeSlotId === Number(id)
+  //   );
+  //   if (updatedItem) {
+  //     const machineToUpdate = updatedItem.machines.find(
+  //       (machine: Machine) => machine.machineId === data.machineId
+  //     );
+  //     if (machineToUpdate) {
+  //       machineToUpdate.selectedBy = data.userId;
+  //     }
+  //   }
+  //   console.log("updatedItem", updatedItem);
+
+  //   return [API_CALL_STATUS_NO_CONTENT];
+  // });
 
   return mock;
 };

@@ -1,6 +1,7 @@
 import { Instance, types } from "mobx-state-tree";
 
 export const Reservation = types.model("Reservation", {
+  userId: types.string,
   id: types.string,
   timeSlotId: types.number,
   startDatetime: types.string,

@@ -1,10 +1,10 @@
 import { useState, FC } from "react";
 import MachineSelector from "./MachineSelector";
 import { v1 } from "uuid";
-import { classNames } from "../../utils";
-import { Reservation, TimeSlot } from "../../mock";
-import { useMST } from "../../store/useMST";
-import { IRootStore } from "../../store/rootStore";
+import { classNames } from "../utils";
+import { Reservation, TimeSlot, curentUserId } from "../mock";
+import { useMST } from "../store/useMST";
+import { IRootStore } from "../store/rootStore";
 
 type ModalWindowPropsType = {
   slot: TimeSlot;
@@ -18,9 +18,11 @@ export const ModalWindow: FC<ModalWindowPropsType> = (props) => {
   const [choosenMachineName, setChoosenMachineName] = useState<string>("");
 
   const store = useMST<IRootStore>();
-  const { reservationsStore } = store;
+  const { reservationsStore, dataStore } = store;
   const { addReservation, fetchReservations, reservationsCount } =
     reservationsStore;
+
+  const { fetchTimeSlots, updateTimeSlots } = dataStore;
 
   const isButtonDisabled = reservationsCount >= 8 || !choosenMachineName;
 
@@ -31,6 +33,7 @@ export const ModalWindow: FC<ModalWindowPropsType> = (props) => {
 
   const handleConfirm = () => {
     addReservation({
+      userId: curentUserId,
       id: v1(),
       timeSlotId: props.slot.timeSlotId,
       startDatetime: props.slot.startTime,
@@ -41,7 +44,14 @@ export const ModalWindow: FC<ModalWindowPropsType> = (props) => {
     })
       .then(() => {
         fetchReservations();
-        console.log("there was a fetch");
+        updateTimeSlots(
+          props.slot.timeSlotId,
+          choosenMachineId,
+          curentUserId,
+          props.slot.date
+        );
+        fetchTimeSlots();
+        console.log("fetch");
       })
       .catch((e) => {
         console.error(e);
@@ -50,12 +60,12 @@ export const ModalWindow: FC<ModalWindowPropsType> = (props) => {
   };
 
   return (
-    <div className='fixed z-10 inset-0 overflow-y-auto bg-gray-500 bg-opacity-75 flex justify-center items-center'>
-      <div className='flex flex-col items-center bg-white p-4 rounded shadow-lg'>
-        <h2 className='font-bold text-xl text-gray-900'>
+    <div className="fixed z-10 inset-0 overflow-y-auto bg-gray-500 bg-opacity-75 flex justify-center items-center">
+      <div className="flex flex-col items-center bg-white p-4 rounded shadow-lg">
+        <h2 className="font-bold text-xl text-gray-900">
           Choose available washing machine:
         </h2>
-        <div className='my-4 p-4'>
+        <div className="my-4 p-4">
           <MachineSelector
             listOfReservations={props.listOfReservations}
             machines={props.slot.machines}
@@ -63,12 +73,12 @@ export const ModalWindow: FC<ModalWindowPropsType> = (props) => {
             handleOptionChange={handleOptionChange}
           />
         </div>
-        <p className='text-xl mb-4 p-2 font-bold'>
+        <p className="text-xl mb-4 p-2 font-bold">
           {props.formatedSelectedDate},{" "}
           {`${props.slot.startTime} - ${props.slot.endTime}`}{" "}
           {choosenMachineName}
         </p>
-        <div className='flex gap-4 justify-center'>
+        <div className="flex gap-4 justify-center">
           <button
             className={classNames(
               "btn-blue confirm-btn",
@@ -80,13 +90,11 @@ export const ModalWindow: FC<ModalWindowPropsType> = (props) => {
             Confirm
           </button>
           <button
-            className='close-window-btn confirm-btn'
+            className="close-window-btn confirm-btn"
             onClick={props.onClose}
           >
             Cancel
           </button>
-          {/* TODO tooltip when 8 elements  */}
-          {/* TODO blocked slots?  */}
         </div>
       </div>
     </div>

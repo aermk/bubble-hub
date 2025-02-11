@@ -1,7 +1,7 @@
 import { useState, FC } from "react";
 import ModalWindow from "./ModalWindow";
-import { classNames } from "../../utils";
-import { Reservation, TimeSlot } from "../../mock";
+import { classNames } from "../utils";
+import { Reservation, TimeSlot } from "../mock";
 import { observer } from "mobx-react";
 
 type SlotPropsType = {
@@ -26,11 +26,15 @@ export const Slot: FC<SlotPropsType> = observer((props) => {
       reservation.date === props.slot.date &&
       reservation.timeSlotId === props.slot.timeSlotId
   );
+  function isSlotAvailable(slot: TimeSlot): boolean {
+    return slot.machines.some((m) => m.selectedBy === "");
+  }
+  const slotIsAvailable = isSlotAvailable(props.slot);
 
   return (
     <>
       <button
-        type='button'
+        type="button"
         onClick={() => {
           onTimeSlotClick();
         }}
@@ -38,14 +42,14 @@ export const Slot: FC<SlotPropsType> = observer((props) => {
           isSlotReservedByUser
             ? "slot-btn bg-green-500 hover:bg-green-700"
             : "slot-btn btn-blue",
-          props.slot.available
+          slotIsAvailable
             ? "slot-btn btn-blue"
             : "slot-btn btn-blue btn-not-allowed"
         )}
       >
         {`${props.slot.startTime} - ${props.slot.endTime}`}
       </button>
-      {props.slot.available && showModal && (
+      {slotIsAvailable && showModal && (
         <ModalWindow
           slot={props.slot}
           formatedSelectedDate={props.formatedSelectedDate}

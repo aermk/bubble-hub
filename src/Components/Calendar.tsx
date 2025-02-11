@@ -8,15 +8,14 @@ import {
   getDay,
   isEqual,
   isSameDay,
-  isSameMonth,
   isToday,
   parse,
   parseISO,
   isBefore,
 } from "date-fns";
-import { classNames } from "../../utils";
-import { colStartClasses } from "../../utils";
-import { Reservation } from "../../mock";
+import { classNames } from "../utils";
+import { colStartClasses } from "../utils";
+import { Reservation } from "../mock";
 import { observer } from "mobx-react";
 
 type CalendarPropsType = {
@@ -25,7 +24,6 @@ type CalendarPropsType = {
   today: Date;
   setSelectedDay: (selectedDay: Date) => void;
   selectedDay: Date;
-  formatedSelectedDate: string;
 };
 
 export const Calendar: FC<CalendarPropsType> = observer((props) => {
@@ -52,14 +50,14 @@ export const Calendar: FC<CalendarPropsType> = observer((props) => {
   };
 
   return (
-    <div className='p-4 flex-1'>
-      <h1 className='mb-4 font-semibold text-xl'>1. Choose the day: </h1>
-      <div className='flex items-center mb-4'>
-        <h2 className='flex-auto font-semibold text-gray-900'>
+    <div className="p-4 flex-1">
+      <h1 className="mb-4 font-semibold text-xl">1. Choose the day: </h1>
+      <div className="flex items-center mb-4">
+        <h2 className="flex-auto font-semibold text-gray-900">
           {format(firstDayCurrentMonth, "MMMM yyyy")}
         </h2>
         <button
-          type='button'
+          type="button"
           onClick={() => {
             if (!isFirstMonth) {
               previousMonth();
@@ -70,63 +68,56 @@ export const Calendar: FC<CalendarPropsType> = observer((props) => {
             "-my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
           )}
         >
-          <span className='sr-only'>Previous month</span>
-          <ChevronLeftIcon className='w-5 h-5' aria-hidden='true' />
+          <span className="sr-only">Previous month</span>
+          <ChevronLeftIcon className="w-5 h-5" aria-hidden="true" />
         </button>
         <button
           onClick={nextMonth}
-          type='button'
-          className='-my-1.5 -mr-1.5 ml-2 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500'
+          type="button"
+          className="-my-1.5 -mr-1.5 ml-2 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
         >
-          <span className='sr-only'>Next month</span>
-          <ChevronRightIcon className='w-5 h-5' aria-hidden='true' />
+          <span className="sr-only">Next month</span>
+          <ChevronRightIcon className="w-5 h-5" aria-hidden="true" />
         </button>
       </div>
-      <div className='grid grid-cols-7 text-xs leading-6 text-center text-gray-500'>
+      <div className="grid grid-cols-7 text-xs leading-6 text-center text-gray-500">
         <div>Mo</div>
         <div>Tu</div>
         <div>We</div>
         <div>Th</div>
         <div>Fr</div>
-        <div>St</div>
-        <div>Sn</div>
+        <div>Sa</div>
+        <div>Su</div>
       </div>
-      <div className='grid grid-cols-7 mt-2 text-sm'>
+      <div className="grid grid-cols-7 mt-2 text-sm">
         {days.map((day, dayIdx) => (
           <div
             key={day.toString()}
             className={classNames(
-              dayIdx === 0 && colStartClasses[getDay(day)],
+              dayIdx === 0 && colStartClasses[(getDay(day) + 6) % 7],
               "py-1.5"
             )}
           >
             <button
-              type='button'
+              type="button"
               onClick={() => {
                 props.setSelectedDay(day);
                 props.getSelectedDay(day);
               }}
               disabled={isBefore(day, props.today)}
               className={classNames(
-                isEqual(day, props.selectedDay) && "text-white",
+                isToday(day) && "text-white",
                 !isEqual(day, props.selectedDay) &&
                   isToday(day) &&
-                  "text-red-500",
-                !isEqual(day, props.selectedDay) &&
-                  !isToday(day) &&
-                  isSameMonth(day, firstDayCurrentMonth) &&
-                  "text-gray-900",
-                !isEqual(day, props.selectedDay) &&
-                  !isToday(day) &&
-                  !isSameMonth(day, firstDayCurrentMonth) &&
-                  "text-gray-400",
+                  "bg-blue-500",
                 isEqual(day, props.selectedDay) &&
                   isToday(day) &&
                   "bg-blue-500",
                 isEqual(day, props.selectedDay) &&
                   !isToday(day) &&
-                  "bg-gray-900",
+                  "bg-blue-300",
                 !isEqual(day, props.selectedDay) && "hover:bg-gray-200",
+                isToday(day) && "hover:bg-blue-700",
                 (isEqual(day, props.selectedDay) || isToday(day)) &&
                   "font-semibold",
                 isBefore(day, props.today) && "btn-not-allowed",
@@ -137,10 +128,10 @@ export const Calendar: FC<CalendarPropsType> = observer((props) => {
                 {format(day, "d")}
               </time>
             </button>
-            <div className='w-1 h-1 mx-auto mt-1'>
+            <div className="w-1 h-1 mx-auto mt-1">
               {props.listOfReservations.some((selectedDay) =>
                 isSameDay(parseISO(selectedDay.date), day)
-              ) && <div className='w-1 h-1 rounded-full bg-green-500'></div>}
+              ) && <div className="w-1 h-1 rounded-full bg-green-500"></div>}
             </div>
           </div>
         ))}
